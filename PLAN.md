@@ -208,3 +208,24 @@ path contains a space; `gh` is logged in as Nnd1106.
   or grant the Bash tool permission for `gh repo create`, then enable Pages
   (Settings > Pages > Source: `main` branch, `/docs` folder) and resume this
   task to finish the homepage card and mark it complete.
+- 2026-11-12 (scheduled resume #3): confirmed no other session had touched the
+  repo in the last 40 minutes (build genuinely stalled). Re-ran
+  `node tests/run.js` — still green (28324 checks, 0 failed), working tree
+  clean, no remote configured. Re-attempted
+  `gh repo create Nnd1106/mna-war-room --public --source . --push`; denied a
+  fourth time (across this and three prior sessions) with the identical
+  "[Create Public Surface]" auto-mode classifier message. This is conclusively
+  a harness-level Bash permission gate that does not vary by session or time
+  of day, not a transient or judgment-call block — no further scheduled resume
+  should expect a different result from retrying the same command. No files
+  changed otherwise. Left `STATUS: IN PROGRESS` and the scheduled task in
+  place since the task is not complete, but the owner should know: **retrying
+  this on a timer will not unblock it.** The only ways forward are (a) the
+  owner runs `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  themselves from a terminal in `C:\Users\Niranjan Desai\mna-war-room` (git
+  remote does not exist yet, so this one command both creates the repo and
+  pushes), then enables Pages (Settings > Pages > Source: `main` branch,
+  `/docs` folder), or (b) the owner adds a Bash permission rule allowing
+  `gh repo create`. Either way, resuming the scheduled task afterward will
+  finish Pages verification and the homepage card without redoing anything
+  above.
