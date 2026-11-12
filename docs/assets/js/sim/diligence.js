@@ -26,7 +26,7 @@
       const present = {};
       stage.issues.forEach((it) => { present[it.id] = rng.chance(it.p === undefined ? 1 : it.p); });
       run.st[stage.id] = {
-        daysLeft: stage.days, depth: Object.fromEntries(stage.streams.map((s) => [s.id, 0])),
+        days0: U.val(stage.days, run), daysLeft: U.val(stage.days, run), depth: Object.fromEntries(stage.streams.map((s) => [s.id, 0])),
         present, found: [], log: [], closed: false,
       };
     },
@@ -62,7 +62,7 @@
       const st = run.st[stage.id];
       const found = stage.issues.filter((it) => st.found.includes(it.id));
       return {
-        daysLeft: st.daysLeft, daysUsed: stage.days - st.daysLeft,
+        daysLeft: st.daysLeft, daysUsed: st.days0 - st.daysLeft,
         found,
         adjust: U.sum(found.map((f) => f.impact || 0)),
         chips: U.sum(found.filter((f) => f.kind !== 'gem').map((f) => f.chip || 0)),

@@ -22,7 +22,7 @@
     init(run, stage) {
       const rng = D.rng(run, stage);
       const sev = {};
-      stage.concerns.forEach((c) => { sev[c.id] = rng.range(c.severity[0], c.severity[1]); });
+      stage.concerns.forEach((c) => { const u = rng.next(); sev[c.id] = U.clamp(c.severity[0] + (c.severity[1] - c.severity[0]) * u + (c.shift ? c.shift(run) : 0), 0, c.severity[1]); });
       run.st[stage.id] = { sev, phase: 1, known: {}, intelUsed: [], offered: [], objections: null, done: false, result: null };
     },
 
@@ -105,6 +105,7 @@
       st.done = true; st.result = res;
       run.deal.reg = res;
       (stage.teachesOnEnd || []).forEach((c) => D.teach(run, c));
+      if (!cleared) D.end(run, stage.failEnd || 'blocked');
       D.news(run, cleared ? stage.authority + ' clears the deal' + (cost ? ' with conditions' : '') : stage.authority + ' blocks the deal', cleared ? 'good' : 'bad');
       return Object.assign({ phase: st.phase }, res);
     },

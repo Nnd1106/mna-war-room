@@ -91,6 +91,7 @@
       run.deal.vote = run.deal.vote || {};
       run.deal.vote[stage.id] = res;
       (stage.teachesOnEnd || []).forEach((c) => D.teach(run, c));
+      if (!success && stage.failEnd) D.end(run, stage.failEnd);
       return res;
     },
 

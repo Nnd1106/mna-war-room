@@ -119,6 +119,8 @@
   WR.sim.decision = {
     init(run, stage) { run.st[stage.id] = { chosen: null, result: null }; },
 
+    q(opt, run) { const q = U.val(opt.q, run); return q === undefined ? 2 : q; },
+
     options(run, stage) {
       return stage.options.filter((o) => !o.requires || o.requires(run));
     },
@@ -146,7 +148,7 @@
       }
       (opt.teaches || []).forEach((cid) => D.teach(run, cid));
       if (opt.news) D.news(run, U.val(opt.news, run), opt.newsTone);
-      run.deal.judgment.push({ stage: stage.id, title: stage.title, option: opt.id, label: opt.label, q: opt.q === undefined ? 2 : opt.q, coach: opt.coach || '' });
+      run.deal.judgment.push({ stage: stage.id, title: stage.title, option: opt.id, label: opt.label, q: WR.sim.decision.q(opt, run), coach: opt.coach || '' });
       st.chosen = opt.id;
       st.result = { option: opt, text, rolled };
       if (opt.end) D.end(run, opt.end);
@@ -157,7 +159,7 @@
     auto(run, stage, policy) {
       const opts = WR.sim.decision.options(run, stage);
       let pick;
-      if (policy === 'coach') pick = opts.slice().sort((a, b) => (b.q === undefined ? 2 : b.q) - (a.q === undefined ? 2 : a.q))[0];
+      if (policy === 'coach') pick = opts.slice().sort((a, b) => WR.sim.decision.q(b, run) - WR.sim.decision.q(a, run))[0];
       else pick = run.policyRng.pick(opts);
       WR.sim.decision.choose(run, stage, pick.id);
       const goto = run.st[stage.id].goto;

@@ -35,7 +35,7 @@
 
     available(run, stage) {
       const st = run.st[stage.id];
-      return stage.initiatives.filter((i) => !st.done.includes(i.id) && (i.from || 0) <= st.phase && (i.until === undefined || i.until >= st.phase))
+      return stage.initiatives.filter((i) => !st.done.includes(i.id) && (i.from || 0) <= st.phase && (i.until === undefined || i.until >= st.phase) && (!i.when || i.when(run)))
         .map((i) => Object.assign({}, i, { ready: (i.requires || []).every((r) => st.done.includes(r)) }));
     },
 
@@ -60,7 +60,7 @@
       if (!chosen.length) apply(st, { morale: -3, customers: -2 });
       (stage.events || []).filter((e) => e.phase === st.phase || e.phase === undefined).forEach((e) => {
         const roll = rng.next();
-        if (e.when && !e.when(st)) return;
+        if (e.when && !e.when(st, run)) return;
         if (roll < (e.p === undefined ? 1 : e.p)) { apply(st, e.fx); entry.events.push({ id: e.id, text: e.text, good: !!e.good }); }
       });
       entry.after = { capture: st.capture, morale: st.morale, customers: st.customers };

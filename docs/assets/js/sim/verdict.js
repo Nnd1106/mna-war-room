@@ -156,7 +156,7 @@
   };
   S.ARCHETYPES = ARCHETYPES;
 
-  const RANKS = [[0, 'Analyst'], [150, 'Associate'], [350, 'Vice President'], [600, 'Director'], [900, 'Managing Director'], [1250, 'Partner'], [1600, 'Rainmaker']];
+  const RANKS = [[0, 'Analyst'], [100, 'Associate'], [220, 'Vice President'], [380, 'Director'], [560, 'Managing Director'], [760, 'Partner'], [940, 'Rainmaker']];
   S.RANKS = RANKS;
   S.rank = function (xp) {
     let i = 0;

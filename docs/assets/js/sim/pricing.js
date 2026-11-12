@@ -64,7 +64,7 @@
         claimedPV: U.sum(rows.map((r) => r.claimedPV)), integrationCost: stage.integrationCost,
         breakEven, premiumAtBreakEven: breakEven / stage.market - 1,
         // a disciplined bidder keeps a share of the synergies for its own shareholders
-        suggested: standalone + 0.5 * synergyPV - stage.integrationCost,
+        suggested: standalone + (stage.share === undefined ? 0.5 : stage.share) * synergyPV - stage.integrationCost,
       };
     },
 

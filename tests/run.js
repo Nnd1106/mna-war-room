@@ -269,7 +269,8 @@ files.forEach((f) => {
     if (s.type === 'diligence') {
       s.issues.forEach((i) => { ok(s.streams.some((x) => x.id === i.stream) && i.depth >= 1 && i.depth <= 3 && i.title && i.text, ws + ' issue ok: ' + i.id); teach(i.teaches, ws); });
       const cost = (s.coachPlan || []).reduce((acc, sid) => { acc.d[sid] = (acc.d[sid] || 0) + 1; acc.c += acc.d[sid]; return acc; }, { d: {}, c: 0 }).c;
-      ok(cost <= s.days, ws + ' coach plan fits the days (' + cost + '/' + s.days + ')');
+      const budget = s.coachDays || s.days;
+      ok(cost <= budget, ws + ' coach plan fits the days (' + cost + '/' + budget + ')');
     }
     if (s.type === 'pricing') { if (s.ddStage) ok(f.stages.some((x) => x.id === s.ddStage && x.type === 'diligence'), ws + ' ddStage exists'); }
     if (s.type === 'auction') ok(f.stages.some((x) => x.id === s.pricingStage && x.type === 'pricing'), ws + ' pricingStage exists');

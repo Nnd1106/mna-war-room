@@ -28,7 +28,7 @@
       let x = rng.next() * total, scenario = stage.scenarios[stage.scenarios.length - 1].id;
       for (const s of stage.scenarios) { x -= s.w; if (x <= 0) { scenario = s.id; break; } }
       const worked = {};
-      stage.levers.forEach((l) => { worked[l.id] = rng.chance(l.p === undefined ? 0.7 : l.p); });
+      stage.levers.forEach((l) => { worked[l.id] = rng.chance(l.p === undefined ? 0.7 : U.val(l.p, run)); });
       run.st[stage.id] = {
         scenario, worked, done: false, result: null,
         plan: { senior: stage.senior[2], sub: stage.sub[2], hold: stage.hold[2], levers: [] },
@@ -45,7 +45,7 @@
       let growth = b.growth + (sc.growth || 0), margin = b.ebitMargin, capex = b.capexPct;
       stage.levers.filter((l) => plan.levers.includes(l.id)).forEach((l) => {
         capex += l.capex || 0;
-        if (real && !st.worked[l.id]) return;
+        if (real && !st.worked[l.id]) { if (l.fail) { growth += l.fail.growth || 0; margin += l.fail.margin || 0; } return; }
         growth += l.growth || 0; margin += l.margin || 0;
       });
       const rates = stage.rates || { senior: 0.09, sub: 0.13 };

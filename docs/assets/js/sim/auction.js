@@ -26,7 +26,7 @@
         max[r.id] = value * (1 + rng.range(r.hubris[0], r.hubris[1]));
       });
       run.st[stage.id] = {
-        round: 1, high: stage.open, leader: null, active: stage.rivals.map((r) => r.id), max,
+        round: 1, high: U.val(stage.open, run), leader: null, active: stage.rivals.map((r) => r.id), max,
         playerIn: true, lastBid: null, log: [], done: false, result: null,
       };
     },
@@ -112,6 +112,7 @@
       st.done = true; st.result = res; report.result = res;
       run.deal.auction = res; run.deal.won = won;
       if (won) run.deal.price = price;
+      else D.end(run, dropped ? 'walked' : 'lost');
       (stage.teachesOnEnd || []).forEach((c) => D.teach(run, c));
       D.news(run, won ? 'Sale process ends: your bid of ' + price + ' carries the day' : winner + ' wins the auction at ' + price, won ? 'good' : 'neutral');
       return report;
@@ -121,8 +122,8 @@
       const st = run.st[stage.id];
       const t = E.truth(run, stage);
       const limit = policy === 'coach'
-        ? (run.deal.walkAway || (t ? t.breakEven * 0.9 : stage.open * 1.2))
-        : (t ? t.breakEven : stage.open * 1.3) * run.policyRng.range(0.8, 1.35);
+        ? (run.deal.walkAway || (t ? t.breakEven * 0.9 : st.high * 1.2))
+        : (t ? t.breakEven : st.high * 1.3) * run.policyRng.range(0.8, 1.35);
       let guard = 0;
       while (!st.done && guard++ < 20) {
         const min = E.minBid(run, stage);

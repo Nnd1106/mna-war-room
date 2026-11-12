@@ -24,7 +24,7 @@
     init(run, stage) {
       const rng = D.rng(run, stage);
       const st = run.st[stage.id] = {
-        round: 1, support: stage.support0 + rng.range(-2, 2), chest: stage.chest, price: stage.price,
+        round: 1, support: U.val(stage.support0, run) + rng.range(-2, 2), chest: stage.chest, price: U.val(stage.price, run), price0: U.val(stage.price, run),
         played: [], enemyUsed: [], log: [], move: null, done: false, result: null,
       };
       st.move = E.drawMove(run, stage);
@@ -47,7 +47,7 @@
     hand(run, stage) {
       const st = run.st[stage.id];
       return stage.cards.filter((c) => !(c.once !== false && st.played.includes(c.id)) && (!c.requires || c.requires(run, st)) && (c.from || 1) <= st.round)
-        .map((c) => Object.assign({}, c, { affordable: (c.cost || 0) <= st.chest }));
+        .map((c) => Object.assign({}, c, { affordable: (c.cost || 0) <= st.chest, q: c.q === undefined ? 2 : U.val(c.q, run, st) }));
     },
 
     play(run, stage, cardId) {
@@ -71,7 +71,7 @@
       D.effects(run, card.effects); D.flags(run, card.set);
       D.effects(run, { days: 7, spend: card.cost || 0 });
       (card.teaches || []).forEach((c) => D.teach(run, c));
-      run.deal.judgment.push({ stage: stage.id, title: stage.title + ', round ' + st.round, option: card.id, label: card.name, q: card.q === undefined ? 2 : card.q, coach: card.coach || '' });
+      run.deal.judgment.push({ stage: stage.id, title: stage.title + ', round ' + st.round, option: card.id, label: card.name, q: card.q, coach: card.coach || '' });
       const entry = { round: st.round, card: card.id, cardName: card.name, move: move ? move.id : null, moveName: move ? move.name : null, moveDesc: move ? move.desc : null, countered, mine, theirs, before, after: st.support, price: st.price };
       st.log.push(entry);
       if (card.ends) return E.finish(run, stage, card.ends, entry);
@@ -85,7 +85,7 @@
       const st = run.st[stage.id];
       const thr = E.threshold(stage);
       const bidderWins = !tag && st.support >= thr;
-      const uplift = st.price / stage.price - 1;
+      const uplift = st.price / st.price0 - 1;
       const res = { side: stage.side, support: st.support, bidderWins, tag: tag || null, price: st.price, uplift, played: st.played.slice(), spent: stage.chest - st.chest, rounds: st.round };
       let s;
       if (stage.side === 'attack') {
@@ -96,7 +96,7 @@
       run.deal.exec[stage.id] = U.clamp(s, 0, 100);
       st.done = true; st.result = res;
       run.deal.battle = res;
-      if (stage.side === 'attack') { run.deal.won = bidderWins; if (bidderWins) run.deal.price = st.price; }
+      if (stage.side === 'attack') { run.deal.won = bidderWins; if (bidderWins) run.deal.price = st.price; else D.end(run, tag || 'failed'); }
       (stage.teachesOnEnd || []).forEach((c) => D.teach(run, c));
       if (entry) entry.result = res;
       return entry;
@@ -110,7 +110,7 @@
         if (!hand.length) { E.finish(run, stage, null, null); break; }
         let pick;
         if (policy === 'coach') {
-          const score = (c) => (c.q === undefined ? 2 : c.q) + ((c.counters || []).includes(st.move) ? 1.5 : 0);
+          const score = (c) => c.q + ((c.counters || []).includes(st.move) ? 1.5 : 0);
           pick = hand.slice().sort((a, b) => score(b) - score(a))[0];
         } else pick = run.policyRng.pick(hand);
         E.play(run, stage, pick.id);
