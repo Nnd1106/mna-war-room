@@ -65,10 +65,13 @@
       try {
         const r = engine().runLbo(E.args(run, stage, plan, real));
         const cover = Math.min.apply(null, r.rows.map((x) => (x.interest_cover === null ? 99 : x.interest_cover)));
+        // a small revolver draw is survivable; a large one means the company cannot meet its debts
+        const revolver = Math.max.apply(null, r.rows.map((x) => x.revolver || 0));
+        const shortfall = revolver > 0.3 * E.ebitda(stage);
         return {
           irr: r.irr, moic: r.moic, equity: r.sources_uses.sponsor_equity, debt: r.sources_uses.senior_debt + r.sources_uses.sub_debt,
           leverage: r.sources_uses.leverage_x, entryMultiple: r.sources_uses.entry_multiple, exitEquity: r.exit_equity,
-          minCover: cover, shortfall: r.liquidity_shortfall, breach: r.liquidity_shortfall || cover < (stage.covenant || 1.5),
+          minCover: cover, shortfall, revolver, breach: shortfall || cover < (stage.covenant || 1.5),
           rows: r.rows.map((x) => ({ year: x.year, revenue: x.revenue, ebitda: x.ebitda, debt: x.total_debt, cover: x.interest_cover, cfads: x.cfads })),
           attribution: r.attribution,
         };
