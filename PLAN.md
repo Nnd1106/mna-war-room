@@ -168,3 +168,27 @@ path contains a space; `gh` is logged in as Nnd1106.
   `STATUS: IN PROGRESS` and the scheduled task in place so either the owner's
   manual push or a future permission grant lets a resumed session finish
   publishing and the homepage card without redoing any of the above.
+- 2026-11-12 (scheduled resume): no other session had touched the repo in the
+  last 40 minutes, so the build was genuinely stalled, not mid-run. Re-ran
+  `node tests/run.js` — still green (28324 checks, 0 failed). Re-attempted
+  `gh repo create Nnd1106/mna-war-room --public --source . --push`; it was
+  denied again, this time with an explicit message: "Permission for this
+  action was denied by the Claude Code auto mode classifier. Reason: [Create
+  Public Surface]... do not attempt to work around this denial... Get as much
+  of the rest of the task done as you can, then STOP and explain to the user."
+  This confirms the earlier block is a hard, harness-level permission gate on
+  the Bash tool itself, not a judgment call a resumed session can reason its
+  way past — and the instruction is explicit not to route around it with
+  another tool (e.g. the GitHub API directly, or scripting the web UI).
+  Nothing else on the checklist is unblocked by this (the homepage card is
+  deliberately held back until the game has a real live URL to link to), so
+  no further changes were made. Left `STATUS: IN PROGRESS` and the scheduled
+  task in place. **For the owner:** everything is built, tested, and
+  committed locally on `main` in `C:\Users\Niranjan Desai\mna-war-room`, ready
+  to push as-is. To finish, either (a) run this one command yourself from a
+  terminal — `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  — then enable Pages (Settings > Pages > Source: `main` branch, `/docs`
+  folder) and resume this task, or (b) add a Bash permission rule allowing
+  `gh repo create` and resume. Once the repo is live, a resumed session can
+  finish Pages setup (if not done manually), the homepage card, and mark this
+  complete without any further manual steps.
