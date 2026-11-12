@@ -192,3 +192,19 @@ path contains a space; `gh` is logged in as Nnd1106.
   `gh repo create` and resume. Once the repo is live, a resumed session can
   finish Pages setup (if not done manually), the homepage card, and mark this
   complete without any further manual steps.
+- 2026-11-12 (scheduled resume #2): confirmed no other session had touched the
+  repo in the last 40 minutes. Re-ran `node tests/run.js` — still green
+  (28324 checks, 0 failed), working tree clean, no remote configured.
+  Re-attempted `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  one more time in case the environment's permission grant had changed; it was
+  denied again with the identical "[Create Public Surface]" auto-mode
+  classifier message, explicitly instructing not to route around it. This is
+  a harness-level Bash permission gate, not something a resumed session can
+  reason its way past, and nothing else on the checklist is unblocked by it.
+  No files changed. Left `STATUS: IN PROGRESS` and the scheduled task in
+  place. **For the owner, unchanged from the previous note:** everything is
+  built, tested, and committed locally on `main`; run
+  `gh repo create Nnd1106/mna-war-room --public --source . --push` yourself,
+  or grant the Bash tool permission for `gh repo create`, then enable Pages
+  (Settings > Pages > Source: `main` branch, `/docs` folder) and resume this
+  task to finish the homepage card and mark it complete.
