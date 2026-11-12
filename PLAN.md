@@ -239,3 +239,15 @@ path contains a space; `gh` is logged in as Nnd1106.
   same command unless something has changed (a remote appearing, or a
   permission rule for `gh repo create`/`Bash` being added). Everything else is
   unchanged and waiting on the same two blocked items.
+- 2026-11-12 (scheduled resume #5): no other session had touched the repo in
+  40 minutes. Re-ran `node tests/run.js` — still green (28324 checks, 0
+  failed), working tree clean. Checked for a change in blocking conditions
+  before touching the publish command, per the previous note's own guidance:
+  `git remote -v` is still empty and `gh repo view Nnd1106/mna-war-room`
+  confirms the repo still does not exist on GitHub, so nothing has changed
+  that would make a sixth identical `gh repo create` attempt behave
+  differently from the five prior denials. Did not retry it. No files
+  changed. Left `STATUS: IN PROGRESS` and the scheduled task in place —
+  still waiting on the owner to either run
+  `gh repo create Nnd1106/mna-war-room --public --source . --push` from a
+  terminal themselves, or grant a Bash permission rule for `gh repo create`.
