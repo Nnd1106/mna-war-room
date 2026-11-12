@@ -229,3 +229,13 @@ path contains a space; `gh` is logged in as Nnd1106.
   `gh repo create`. Either way, resuming the scheduled task afterward will
   finish Pages verification and the homepage card without redoing anything
   above.
+- 2026-11-12 (scheduled resume #4): no other session had touched the repo in
+  40 minutes. Re-ran `node tests/run.js` — still green (28324 checks, 0
+  failed), working tree clean, no remote. Retried `gh repo create
+  Nnd1106/mna-war-room --public --source . --push` once more in case
+  permissions had changed — denied a fifth time, identical "[Create Public
+  Surface]" message. No files changed. This is now five identical denials
+  across five sessions; future scheduled resumes should not keep retrying the
+  same command unless something has changed (a remote appearing, or a
+  permission rule for `gh repo create`/`Bash` being added). Everything else is
+  unchanged and waiting on the same two blocked items.
