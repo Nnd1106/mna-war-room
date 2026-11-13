@@ -251,3 +251,18 @@ path contains a space; `gh` is logged in as Nnd1106.
   still waiting on the owner to either run
   `gh repo create Nnd1106/mna-war-room --public --source . --push` from a
   terminal themselves, or grant a Bash permission rule for `gh repo create`.
+- 2026-11-13 (scheduled resume #6): no other session had touched the repo in
+  the last 40 minutes. Re-ran `node tests/run.js` — still green (28324 checks,
+  0 failed). Checked blocking conditions before touching the publish command:
+  `git status` clean, `git remote -v` still empty, `gh repo view
+  Nnd1106/mna-war-room` still resolves to "Could not resolve to a Repository"
+  — i.e. the repo still doesn't exist and nothing has changed since resume #5.
+  Per that note's own guidance, did not re-attempt the sixth identical
+  `gh repo create` call, since six identical harness-level denials would carry
+  no new information. No files changed. Left `STATUS: IN PROGRESS` and the
+  scheduled task in place — this remains a pure wait on the owner for one of:
+  (a) run `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  themselves from a terminal in `C:\Users\Niranjan Desai\mna-war-room`, then
+  enable Pages (Settings > Pages > Source: `main` branch, `/docs` folder), or
+  (b) grant a Bash permission rule for `gh repo create`. Once a remote exists,
+  resuming this task finishes Pages verification and the homepage card.
