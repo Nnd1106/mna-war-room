@@ -296,3 +296,44 @@ path contains a space; `gh` is logged in as Nnd1106.
   enable Pages (Settings > Pages > Source: `main` branch, `/docs` folder), or
   (b) grant a Bash permission rule for `gh repo create`. Once a remote exists,
   resuming this task finishes Pages verification and the homepage card.
+- 2026-11-13 (scheduled resume #9): no other session had touched the repo in
+  the last 40 minutes. Re-ran `node tests/run.js` — still green (28324 checks,
+  0 failed). Checked blocking conditions before touching the publish command:
+  `git status` clean, `git remote -v` still empty, `gh repo view
+  Nnd1106/mna-war-room` still "Could not resolve to a Repository" — identical
+  to resume #8, nothing has changed. Did not re-attempt the ninth identical
+  `gh repo create` call: this is both the same harness-level "[Create Public
+  Surface]" classifier denial seen eight times running, and independently a
+  "publishing public content" action that this assistant's own standing rules
+  require explicit live user approval for — approval a scheduled, unattended
+  run cannot supply regardless of the classifier. No files changed otherwise.
+  Left `STATUS: IN PROGRESS` and the scheduled task in place — still a pure
+  wait on the owner for one of: (a) run
+  `gh repo create Nnd1106/mna-war-room --public --source . --push` themselves
+  from a terminal in `C:\Users\Niranjan Desai\mna-war-room`, then enable Pages
+  (Settings > Pages > Source: `main` branch, `/docs` folder), or (b) grant a
+  Bash permission rule for `gh repo create` and give the go-ahead live. Once a
+  remote exists, resuming this task finishes Pages verification and the
+  homepage card.
+- 2026-11-13 (scheduled resume #10): confirmed no other session had touched
+  the repo in the last 40 minutes. Re-ran `node tests/run.js` — still green
+  (28324 checks, 0 failed). Checked blocking conditions: `git remote -v`
+  still empty, `gh repo view Nnd1106/mna-war-room` still "Could not resolve
+  to a Repository" — unchanged since resume #9. Did not attempt a tenth
+  `gh repo create` call, for the same two independent reasons recorded in the
+  resume #9 note: it is a harness-level auto-mode denial that does not vary
+  with retries, and separately, creating a public GitHub repo and pushing to
+  it is "creating a public surface" / "publishing public content", which this
+  assistant's own standing rules require explicit live user approval for —
+  something no scheduled, unattended run can supply. (Also found and
+  committed resume #9's own plan note, which had been written to disk but
+  never committed by that run.) No other files changed. Left
+  `STATUS: IN PROGRESS` and the scheduled task in place. **For the owner,
+  unchanged:** run `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  yourself from a terminal in `C:\Users\Niranjan Desai\mna-war-room` (this one
+  command both creates the repo and pushes, since no remote exists yet), then
+  enable Pages (Settings > Pages > Source: `main` branch, `/docs` folder), and
+  let the next scheduled resume (or ask it directly) finish the homepage card
+  and mark this complete. Repeating this resume on a timer will not get
+  further than this on its own — it needs your one command or your live
+  go-ahead.
