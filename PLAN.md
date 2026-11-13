@@ -382,3 +382,25 @@ path contains a space; `gh` is logged in as Nnd1106.
   there's a remote. Future scheduled resumes should keep checking for a
   changed remote/permission before retrying, rather than retrying on a
   timer.
+- 2026-11-13 (scheduled resume #13): confirmed no other session had touched
+  the repo in the last 40 minutes. Re-ran `node tests/run.js` -- still green
+  (28324 checks, 0 failed), working tree clean. `git remote -v` still empty,
+  no evidence anything has changed since resume #12. Did not attempt a
+  thirteenth `gh repo create` call. Independently re-confirming resumes
+  #9-#12's conclusion rather than taking it on faith: pushing this project to
+  a brand-new public GitHub repo is "creating a public surface" and
+  "publishing public content" under this assistant's own standing rules,
+  which require explicit permission given live by the user in chat --
+  permission a scheduled run firing while the owner is asleep structurally
+  cannot obtain, independent of whatever the harness's own auto-mode
+  classifier does. No files changed otherwise. Left `STATUS: IN PROGRESS`
+  and the scheduled task in place. **For the owner, unchanged:** when awake,
+  either run `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  yourself from a terminal in `C:\Users\Niranjan Desai\mna-war-room`, then
+  enable Pages (Settings > Pages > Source: `main` branch, `/docs` folder) --
+  or tell a live session to go ahead and it will do both steps plus the
+  homepage card in one pass. Everything else remains built, tested (28324
+  checks, 0 failures), and committed on `main`. Given thirteen identical
+  resumes with no change, it may be worth lengthening the resume interval or
+  pausing the schedule until the owner is ready to unblock it, rather than
+  continuing to fire every cycle with nothing new to check.
