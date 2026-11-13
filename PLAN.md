@@ -1,6 +1,6 @@
 # M&A WAR ROOM: build plan and status
 
-STATUS: IN PROGRESS
+STATUS: COMPLETE
 
 This file is the single source of truth for an unattended build. If you are a
 new session picking this up: read all of it, run "How to verify", then
@@ -124,30 +124,25 @@ path contains a space; `gh` is logged in as Nnd1106.
       of runs each, 0 failures) — a full manual click-through of the other
       eight files is still worth doing when a human is at the keyboard
 - [x] README.md, CI workflow (`node tests/run.js`)
-- [ ] **BLOCKED, needs the owner:** `gh repo create Nnd1106/mna-war-room
-      --public --source . --push` was refused by this environment's auto-mode
-      permission classifier ("Create Public Surface" — creating a new public
-      GitHub repo is not something an unattended session is allowed to do,
-      and there is no workaround within the rules this session runs under).
-      Everything up to this point is committed on `main` locally in
-      `C:\Users\Niranjan Desai\mna-war-room` and ready to push as-is. The
-      owner needs to either (a) run the command above themselves from a
-      terminal (git remote does not exist yet, so this one command both
-      creates the repo and pushes), or (b) grant this session's Bash tool
-      permission to create public repos and re-run/resume the task. Once a
-      remote exists, a resumed session can finish the rest of this item
-      (`gh repo edit ... or the repo settings UI to enable Pages from `main`
-      `/docs`, then verify the live URL loads in a browser) without any
-      further manual steps.
-- [ ] Homepage: add a card in the "Strategy & Simulation" group of
-      `C:\Users\Niranjan Desai\nnd1106.github.io\index.html` (same markup as
-      the STRATLAB card), bump that group's count 02 -> 03 and the hero
-      "Live Tools" stat 10 -> 11 and the two "ten" mentions; push; verify live
-      — holding off on this until the game's own repo is live, so the card
-      links somewhere real; also pushes to an already-public repo, which may
-      hit the same classifier and need the owner's go-ahead
-- [ ] Set `STATUS: COMPLETE` at the top of this file, delete the scheduled
-      task `mna-war-room-resume`, write the final summary for the owner
+- [x] Published: `gh repo create Nnd1106/mna-war-room --public --source .
+      --push` run live with the owner's explicit go-ahead (2026-11-13, in
+      chat, after resume #13 reconfirmed the publish step needed live
+      approval and could not be done unattended). Repo:
+      https://github.com/Nnd1106/mna-war-room . Pages enabled via
+      `gh api -X POST repos/Nnd1106/mna-war-room/pages` from `main` / `/docs`;
+      build succeeded; live URL https://nnd1106.github.io/mna-war-room/
+      verified in-browser (page text correct, zero console errors).
+- [x] Homepage: added the M&A War Room card to the "Strategy & Simulation"
+      group of `C:\Users\Niranjan Desai\nnd1106.github.io\index.html`, bumped
+      that group's count 02 -> 03, the hero "Live Tools" stat 10 -> 11, and
+      the two "ten"/"Ten" tool-count mentions (meta description, bio
+      paragraph — the unrelated "ten-year DCF" mention elsewhere was left
+      alone). Verified locally via a temp static server (correct count,
+      correct card content, zero console errors) before pushing. Pushed to
+      `Nnd1106/nnd1106.github.io`; Pages rebuilt; verified live on
+      https://nnd1106.github.io/ (card renders, links to the game).
+- [x] `STATUS: COMPLETE` set above; scheduled task `mna-war-room-resume`
+      deleted next; final summary below.
 
 ## Progress notes
 
@@ -404,3 +399,17 @@ path contains a space; `gh` is logged in as Nnd1106.
   resumes with no change, it may be worth lengthening the resume interval or
   pausing the schedule until the owner is ready to unblock it, rather than
   continuing to fire every cycle with nothing new to check.
+- 2026-11-13 (live, owner approved publish): the owner replied "Yes, publish
+  it" live in chat, which is the explicit live approval resumes #9-#13
+  identified as the actual missing piece. Ran
+  `gh repo create Nnd1106/mna-war-room --public --source . --push` ->
+  https://github.com/Nnd1106/mna-war-room created and pushed. Enabled Pages
+  via the API (`main` / `/docs`); build succeeded; verified
+  https://nnd1106.github.io/mna-war-room/ loads correctly with zero console
+  errors. Added the M&A War Room card to the homepage's Strategy &
+  Simulation group, bumped the category count (02->03), the hero Live Tools
+  stat (10->11), and the two tool-count "ten" mentions; verified the change
+  locally before pushing; pushed to `Nnd1106/nnd1106.github.io`; confirmed
+  live on https://nnd1106.github.io/ after the Pages rebuild. All checklist
+  items are now done. Set `STATUS: COMPLETE` above and deleted the scheduled
+  task `mna-war-room-resume`.
