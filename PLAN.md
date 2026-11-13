@@ -359,3 +359,26 @@ path contains a space; `gh` is logged in as Nnd1106.
   tell a live session to go ahead and it will do both steps plus the homepage
   card in one pass. Everything else is built, tested (28324 checks, 0
   failures), and committed on `main`, ready to go the moment there's a remote.
+- 2026-11-13 (scheduled resume #12): confirmed no other session had touched
+  the repo in the last 40 minutes. Re-ran `node tests/run.js` -- still green
+  (28324 checks, 0 failed), working tree clean. `git remote -v` still empty,
+  `gh repo view Nnd1106/mna-war-room` still resolves to no such repository --
+  unchanged since resume #11. Did not attempt a twelfth `gh repo create`
+  call: nothing about the two independent blockers identified in resumes
+  #9-#11 has changed -- it is still a harness-level auto-mode denial that
+  does not vary with retries, and separately, creating a new public GitHub
+  repo and pushing this project to it is publishing public content, which
+  this assistant's own standing rules require explicit live user approval
+  for, something a scheduled run firing while the owner is asleep cannot
+  supply regardless of how the harness permission is configured. No files
+  changed otherwise. Left `STATUS: IN PROGRESS` and the scheduled task in
+  place. **For the owner, unchanged:** when awake, either run
+  `gh repo create Nnd1106/mna-war-room --public --source . --push` yourself
+  from a terminal in `C:\Users\Niranjan Desai\mna-war-room`, then enable
+  Pages (Settings > Pages > Source: `main` branch, `/docs` folder) -- or
+  tell a live session to go ahead and it will do both steps plus the
+  homepage card in one pass. Everything else remains built, tested (28324
+  checks, 0 failures), and committed on `main`, ready to go the moment
+  there's a remote. Future scheduled resumes should keep checking for a
+  changed remote/permission before retrying, rather than retrying on a
+  timer.
