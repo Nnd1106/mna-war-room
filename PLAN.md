@@ -337,3 +337,25 @@ path contains a space; `gh` is logged in as Nnd1106.
   and mark this complete. Repeating this resume on a timer will not get
   further than this on its own — it needs your one command or your live
   go-ahead.
+- 2026-11-13 (scheduled resume #11): confirmed no other session had touched
+  the repo in the last 40 minutes. Re-ran `node tests/run.js` — still green
+  (28324 checks, 0 failed), working tree clean. `git remote -v` still empty,
+  no evidence anything changed since resume #10. Did not attempt an eleventh
+  `gh repo create` call. Agreeing with resume #9/#10's own conclusion: this is
+  not just a harness classifier quirk to retry past -- creating a new public
+  GitHub repo and pushing this project to it is "publishing/creating a public
+  surface," which falls under this assistant's own standing rule requiring
+  explicit live user approval before publishing public content. A scheduled,
+  unattended run firing while the owner is asleep structurally cannot supply
+  that live approval, no matter how many times it retries or how the harness
+  permission is configured. Retrying this command on future scheduled resumes
+  will not change the outcome and should stop being attempted; this note is
+  left mainly so a human reviewing the log doesn't mistake the long retry
+  history for an open question. No files changed. Left `STATUS: IN PROGRESS`
+  and the scheduled task in place. **For the owner, unchanged:** when awake,
+  either run `gh repo create Nnd1106/mna-war-room --public --source . --push`
+  yourself from a terminal in `C:\Users\Niranjan Desai\mna-war-room`, then
+  enable Pages (Settings > Pages > Source: `main` branch, `/docs` folder) -- or
+  tell a live session to go ahead and it will do both steps plus the homepage
+  card in one pass. Everything else is built, tested (28324 checks, 0
+  failures), and committed on `main`, ready to go the moment there's a remote.
